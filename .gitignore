@@ -1,0 +1,8 @@
+node_modules
+dist
+start.cmd
+**/config.json
+**/credentials.json
+**/**.dev
+.env
+**/**/deploy-commands.ts

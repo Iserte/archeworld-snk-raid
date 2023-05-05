@@ -1,0 +1,190 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  discordId   String   @unique
+  discordUser String?
+  nickname    String
+  gameClass   String
+  role        String
+  rating      Int
+  clan        String
+  priority    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  RaidsLeader  Queue[] @relation("RaidLeader")
+  RaidsMember  Queue[] @relation("RaidMembers")
+  QueuesMember Queue[] @relation("QueueMembers")
+}
+
+model Queue {
+  id        String   @id @default(uuid())
+  channelId String
+  messageId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  RaidLeader   User?   @relation("RaidLeader", fields: [userId], references: [id])
+  userId       String?
+  RaidMembers  User[]  @relation("RaidMembers")
+  QueueMembers User[]  @relation("QueueMembers")
+}
+
+enum Priority {
+  PLAYER
+  STREAMER
+  STAFF
+}
+
+enum Role {
+  Mage
+  Archer
+  Tank
+  Melee
+}
+
+enum GameClass {
+  Hexblade
+  Hex_Warden
+  Hordebreaker
+  Dreadhunter
+  Harbinger
+  Shadowblade
+  Dirgeweaver
+  Shaman
+  Abolisher
+  Doomlord
+  Liberator
+  Crusader
+  Blighter
+  Dawncaller
+  Paladin
+  Bloodreaver
+  Bonestalker
+  Enforcer
+  Darkrunner
+  Herald
+  Argent
+  Dreadbow
+  Ravager
+  Executioner
+  Lorebreaker
+  Blackguard
+  Destroyer
+  Outrider
+  Bloodskald
+  Warpriest
+  Hellweaver
+  Spellword
+  Fleshshaper
+  Blade_Dancer
+  Inquisitor
+  Bloodthrall
+  Dreambreaker
+  Defiler
+  Archon
+  Cabalist
+  Shadowknight
+  Poxbane
+  Shadowbane
+  Nightcloak
+  Arcane_Hunter
+  Arcanist
+  Eidolon
+  Enchantrix
+  Hierophant
+  Shadestriker
+  Demonologist
+  Shroudmaster
+  Tombcaller
+  Necromancer
+  Stormcaster
+  Trickster
+  Songcraft
+  Hex_Ranger
+  Soulbow
+  Daggerspell
+  Lamentor
+  Skullknight
+  Bastion
+  Thaumaturge
+  Nightblade
+  Tomb_Warden
+  Templar
+  Dreadstone
+  Battlemage
+  Dreadnaught
+  Dark_Aegis
+  Justicar
+  Farslayer
+  Stone_Arrow
+  Honorguard
+  Druid
+  Swiftstone
+  Earthsinger
+  Scion
+  Nightbearer
+  Death_Warden
+  Caretaker
+  Astral_Ranger
+  Revenant
+  Planeshifter
+  Phantasm
+  Edgewalker
+  Stormchaser
+  Primeval
+  Howler
+  Oracle
+  Enigmatist
+  Spellsong
+  Boneweaver
+  Exorcist
+  Soothsayer
+  Cleric
+  Spellbow
+  Assassin
+  Gravesinger
+  Blood_Arrow
+  Reaper
+  Requiem
+  Cultist
+  Nocturne
+  Doombringer
+  Sorrowsong
+  Infiltrator
+  Evoker
+  Naturalist
+  Ebonsong
+  Ranger
+  Soulsong
+  Spellsinger
+  Animist
+  Gypsy
+  Confessor
+}
+
+enum Clan {
+  look_a_snack
+  defn_a_snack
+  snake_snack
+  who_said_snack
+  tempest_snack
+  we_are_snack
+  another_snack
+  need_a_snack
+  just_a_snack
+  save_your_snack
+  not_a_snack
+  gimme_a_snack
+}
